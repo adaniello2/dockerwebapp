@@ -1,8 +1,12 @@
-node {
-    checkout scm
-    def testImage = docker.build("test-image", "./dockerfiles/test") 
-
-    testImage.inside {
-        sh 'make test'
+pipeline {
+    agent {
+        docker { image 'node:7-alpine' }
+    }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+            }
+        }
     }
 }
