@@ -1,11 +1,8 @@
 node {
     checkout scm
+    def testImage = docker.build("test-image", "./dockerfiles/test") 
 
-    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-
-        def customImage = docker.build("adani/dockerwebapp}")
-
-        /* Push the container to the custom Registry */
-        customImage.push()
+    testImage.inside {
+        sh 'make test'
     }
 }
